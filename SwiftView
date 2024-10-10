@@ -1,0 +1,112 @@
+import SwiftUI
+
+struct ContentView: View {
+    let items = [
+        CardView(title: "O que é uma IA?", description: "Educativo", image: "Card1"),
+        CardView(title: "Como usar elas?", description: "Educativo", image: "Card2"),
+        CardView(title: "Melhores receitas", description: "Receitas", image: "Card3"),
+        CardView(title: "Inspire-se na escrita", description: "Storybook", image: "Card4"),
+        CardView(title: "Seu oc ganhando vida", description: "Criação de Artes", image: "Card5"),
+        CardView(title: "Lendários dragões", description: "Criação de Artes", image: "Card6")
+    ]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    var body: some View {
+        NavigationView {
+            VStack {
+                HStack {
+                    TextField("Pesquisar...", text: .constant(""))
+                        .padding(10)
+                        .background(Color(.systemGray5))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                    
+                    Button(action: {}) {
+                        Image(systemName: "slider.horizontal.3")
+                            .padding(10)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                    }
+                    .padding(.trailing)
+                }
+                .padding(.top, 10)
+                
+                HStack {
+                    Text("Guias Rápidos")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(.blue)
+                        .padding(.leading)
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Text("Filtros")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .padding(.trailing)
+                }
+                .padding(.top, 10)
+                
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(0..<items.count, id: \.self) { index in
+                            items[index]
+                        }
+                    }
+                    .padding()
+                }
+                .navigationTitle("IA Fácil")
+                .navigationBarItems(trailing: HStack {
+                    Button("Entrar") {}
+                    Button("Cadastrar") {}
+                })
+            }
+        }
+    }
+}
+
+struct CardView: View {
+    
+    let title: String
+    let description: String
+    let image: String
+    
+    var body: some View {
+        VStack {
+            Image(image)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 190)
+                .clipped()
+                .cornerRadius(10)
+            
+            Text(title)
+                .font(.headline)
+                .multilineTextAlignment(.center)
+                .padding(.top, 10)
+            
+            Text(description)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .multilineTextAlignment(.center)
+        }
+        .frame(width: 150, height: 250)
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(radius: 5)
+    }
+}
+
+#Preview {
+    ContentView()
+}
