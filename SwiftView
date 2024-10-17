@@ -11,36 +11,58 @@ struct ContentView: View {
     ]
     
     let columns = [
-        GridItem(.flexible(), spacing: 10),
+        GridItem(.flexible(), spacing: 20),
         GridItem(.flexible(), spacing: 20)
     ]
     
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
+                HStack(spacing: 10) {
+                    Image(systemName: "brain.head.profile")
+                        .resizable()
+                        .frame(width: 30, height: 30) // Ajustando o tamanho da logo para harmonizar
+
                     TextField("Pesquisar...", text: .constant(""))
-                        .padding(10)
-                        .background(Color(.systemGray5))
-                        .cornerRadius(10)
-                        .padding(.horizontal)
+                        .padding(8)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                        .overlay(
+                            HStack {
+                                Spacer()
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.blue)
+                                        .frame(width: 30, height: 30)
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.trailing, 2)
+                            }
+                        )
+                        .frame(width: 140)
                     
-                    Button(action: {}) {
-                        Image(systemName: "slider.horizontal.3")
-                            .padding(10)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.trailing)
+                    Spacer()
+                    
+                    Button("Entrar / Cadastrar") {}
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color.blue)
+                        .cornerRadius(8)
+                        .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                        .frame(width: 160, height: 30)
                 }
-                .padding(.top, 10)
-                
+                .padding(.vertical, 8)
+                .padding(.horizontal)
+                .background(Color(hex: 0x009FFF))
+                .padding(.bottom, 10)
+
                 HStack {
                     Text("Guias Rápidos")
                         .font(.title2)
                         .bold()
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(hex: 0x009FFF))
                         .padding(.leading)
                     
                     Spacer()
@@ -49,9 +71,10 @@ struct ContentView: View {
                         Text("Filtros")
                             .font(.headline)
                             .foregroundColor(.white)
-                            .padding(10)
-                            .background(Color.blue)
-                            .cornerRadius(10)
+                            .padding(8)
+                            .background(Color(hex: 0x00D8C6))
+                            .cornerRadius(8)
+                            .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
                     }
                     .padding(.trailing)
                 }
@@ -63,14 +86,13 @@ struct ContentView: View {
                             items[index]
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, 20)
                 }
-                .navigationTitle("IA Fácil")
-                .navigationBarItems(trailing: HStack {
-                    Button("Entrar") {}
-                    Button("Cadastrar") {}
-                })
+                .background(Color(.systemGray6))
+                .navigationTitle("")
+                .navigationBarHidden(true)
             }
+            .background(Color(.white))
         }
     }
 }
@@ -82,28 +104,76 @@ struct CardView: View {
     let image: String
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Image(image)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 190)
+                .frame(height: 150)
                 .clipped()
-                .cornerRadius(10)
+                .cornerRadius(10, corners: [.topLeft, .topRight])
             
-            Text(title)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-                .padding(.top, 10)
-            
-            Text(description)
-                .font(.subheadline)
-                .foregroundColor(.gray)
-                .multilineTextAlignment(.center)
+            VStack {
+                Text(title)
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)
+                    .lineLimit(nil)
+                
+                Text(description)
+                    .font(.footnote)
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
+                
+                Spacer()
+                
+                Button(action: {}) {
+                    Text("Acessar")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                .padding(.top, 5)
+            }
+            .padding(10)
+            .background(Color(hex: 0xA7D6F1))
+            .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
         }
-        .frame(width: 150, height: 250)
-        .background(Color.white)
+        .frame(width: 160, height: 250)
+        .background(Color(hex: 0x009FFF))
         .cornerRadius(15)
         .shadow(radius: 5)
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+extension Color {
+    init(hex: UInt) {
+        self.init(
+            .sRGB,
+            red: Double((hex >> 16) & 0xFF) / 255,
+            green: Double((hex >> 8) & 0xFF) / 255,
+            blue: Double(hex & 0xFF) / 255,
+            opacity: 1
+        )
     }
 }
 
