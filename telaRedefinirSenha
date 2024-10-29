@@ -1,0 +1,90 @@
+import SwiftUI
+
+struct RedefinirSenhaView: View {
+    @State private var resetCode: String = ""
+    @State private var newPassword: String = ""
+
+    var body: some View {
+        VStack {
+            // Botão "Voltar"
+            HStack {
+                Button(action: {
+                    // Ação do botão "Voltar"
+                }) {
+                    Text("Voltar")
+                        .foregroundColor(.blue)
+                        .padding()
+                        .frame(width: 80, height: 40)
+                        .background(Color(UIColor.systemGray6))
+                        .cornerRadius(10)
+                }
+                Spacer()
+            }
+            .padding(.leading)
+            
+            // Logo
+            Circle()
+                .stroke(Color.blue, lineWidth: 2)
+                .frame(width: 80, height: 80)
+                .padding(.top, 20)
+            
+            Text("IA Fácil")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            
+            Spacer().frame(height: 30)
+            
+            // Título "Redefinir senha"
+            Text("Redefinir senha")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .padding(.top, 20)
+            
+            // Campo para inserir o código
+            TextField("Insira o código", text: $resetCode)
+                .padding()
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(10)
+                .padding(.horizontal, 40)
+            
+            // Campo para inserir a nova senha
+            SecureField("Insira a nova senha", text: $newPassword)
+                .padding()
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(10)
+                .padding(.horizontal, 40)
+                .padding(.top, 10)
+            
+            // Botão "Enviar"
+            Button(action: {
+                // Ação ao clicar no botão "Enviar"
+            }) {
+                Text("Enviar")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color(red: 63/255, green: 193/255, blue: 201/255))
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal, 40)
+            .padding(.top, 20)
+            
+            Spacer()
+            
+            // Rodapé
+            Text("Contate o suporte | IA Fácil®Todos os direitos reservados")
+                .font(.footnote)
+                .foregroundColor(.white)
+                .padding(.bottom, 20)
+        }
+        .background(Color.blue.ignoresSafeArea())
+    }
+}
+
+struct RedefinirSenhaView_Previews: PreviewProvider {
+    static var previews: some View {
+        RedefinirSenhaView()
+    }
+}
