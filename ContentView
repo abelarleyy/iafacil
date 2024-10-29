@@ -1,0 +1,299 @@
+import SwiftUI
+
+@main
+struct IAFacilApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
+
+struct ContentView: View {
+    @State private var selectedCard: CardViewModel? = nil
+    @State private var showModal = false
+    @State private var showProfile = false
+    @State private var filteredItems: [CardViewModel] = []
+    @State private var selectedCategory: String? = nil
+    @State private var showCategoryOptions = false
+
+    let categories = ["Artes Visuais", "Criação de conteúdo", "Design Gráfico", "Educação", "Fotografia", "Games e Animações", "Receitas e Culinária", "Saúde e Bem-estar", "Storytelling"]
+
+    let items = [
+        CardViewModel(title: "O que é uma IA?", description: "Educação", image: "Card1", content: "Inteligência Artificial (IA) é um campo da ciência da computação que busca criar sistemas capazes de realizar tarefas que normalmente exigiriam inteligência humana. Isso inclui desde o reconhecimento de padrões até a tomada de decisões e o aprendizado autônomo. A IA pode ser encontrada em diversos setores, como automação industrial, saúde, finanças, e até mesmo no dia a dia, em assistentes virtuais e recomendações de filmes e músicas. A IA utiliza algoritmos e modelos de aprendizado de máquina (machine learning) para analisar grandes quantidades de dados, identificando padrões e gerando previsões ou decisões. Há dois tipos principais de IA: a IA 'estreita', que realiza tarefas específicas, como a Siri ou Alexa, e a IA 'geral, que é uma inteligência hipotética capaz de realizar qualquer tarefa cognitiva humana. Ainda estamos longe de alcançar essa IA geral, mas o progresso nas áreas atuais é impressionante."),
+        CardViewModel(title: "Como usar elas?", description: "Educação", image: "Card2", content: "Utilizar Inteligências Artificiais pode parecer complexo à primeira vista, mas com as ferramentas certas, qualquer pessoa pode aproveitar seu potencial para diferentes finalidades, desde a automação de tarefas simples até a criação de conteúdo avançado. Para começar a usar IAs, você precisa identificar o tipo de tarefa que deseja realizar. Por exemplo, se você quer automatizar o atendimento ao cliente, pode usar assistentes virtuais como o ChatGPT ou outras soluções especializadas. Se o foco for edição de imagem, IA's como MidJourney podem gerar imagens detalhadas a partir de simples descrições. Em seguida, familiarize-se com as ferramentas que existem na sua área de interesse. Muitas delas oferecem interfaces simples onde você só precisa digitar instruções ou fazer upload de arquivos, e a IA faz o resto do trabalho automaticamente. A prática e o conhecimento sobre como estruturar os comandos de entrada (prompts) vão melhorar os resultados com o tempo."),
+        CardViewModel(title: "Melhores receitas", description: "Receitas e Culinária", image: "Card3", content: "A IA tem invadido até mesmo o mundo da culinária, trazendo inovações e ajudando a criar receitas personalizadas, com base em preferências alimentares, ingredientes disponíveis e até mesmo restrições alimentares. Com a ajuda de uma IA, você pode criar desde pratos simples até receitas mais complexas. Hoje, você pode utilizar uma IA para sugerir receitas a partir dos ingredientes que você tem na geladeira, ou até mesmo personalizar um prato tradicional de acordo com suas preferências. Além disso, as IAs podem adaptar receitas levando em consideração restrições alimentares, como intolerância à lactose ou alergias alimentares. Por exemplo, você pode pedir a uma IA para transformar um prato de macarrão tradicional em uma versão vegana ou sem glúten. Com a integração de IA na culinária, até chefs amadores podem criar receitas surpreendentes e inovadoras com apenas alguns cliques. A personalização é a chave, e com a IA, você pode se tornar seu próprio chef."),
+        CardViewModel(title: "Inspire-se na escrita", description: "Storytelling", image: "Card4", content: "A escrita é uma das formas mais criativas de expressão, e com a ajuda de IAs, escritores de todos os níveis podem gerar novas ideias, criar personagens e desenvolver histórias de forma ainda mais eficiente. Seja você um autor iniciante ou veterano, a IA pode ser uma excelente fonte de inspiração. O processo criativo de escrever pode, às vezes, ficar bloqueado, e é aí que a IA pode ser extremamente útil. Ela pode sugerir pontos de virada para sua narrativa, ajudar a desenvolver personagens mais complexos, ou até gerar cenários e diálogos. Imagine uma IA que consegue entender o gênero da sua história e sugerir descrições detalhadas de cenários, ou mesmo prever o comportamento de um personagem. Não apenas isso, mas você pode usar IAs para gerar novos mundos e universos, desenvolver tramas paralelas e enriquecer seu enredo com nuances que talvez você não tivesse pensado inicialmente. Isso não substitui o escritor, mas sim potencializa sua capacidade criativa. - Prompt: 'Crie uma descrição detalhada de um personagem misterioso que entra em uma pequena cidade. Ele carrega um segredo obscuro e altera a vida dos habitantes de maneira inesperada. Descreva tanto a aparência física quanto a personalidade enigmática dele.'"),
+        CardViewModel(title: "Seu oc ganhando vida", description: "Artes Visuais", image: "Card5", content: "A criação de personagens originais (OCs) é algo muito popular em várias comunidades artísticas. Seja para RPGs, fanfics ou jogos, transformar a ideia de um personagem em uma obra visual concreta é uma habilidade muito valorizada. Com a ajuda de IAs, agora é possível dar vida a esses personagens de maneira mais prática e visual. Com as ferramentas de inteligência artificial atuais, como geradores de arte e modeladores 3D, você pode criar imagens detalhadas do seu OC (personagem original) a partir de descrições. A IA pode captar características detalhadas, como cor de pele, cabelo, roupas, e até traços de personalidade, transformando o que está na sua cabeça em arte digital. IAs como MidJourney ou Stable Diffusion permitem criar personagens em diferentes estilos artísticos, desde quadrinhos até realismo impressionante. O resultado é uma representação visual única e personalizada, pronta para ser usada em jogos, histórias ou projetos visuais. Isso economiza tempo e traz uma nova camada de criatividade para sua imaginação. Prompt: 'Transforme essa descrição em uma imagem: um guerreiro com armadura de couro, cabelos brancos longos, olhos vermelhos brilhantes, carregando uma espada grande de prata. Ele possui cicatrizes no rosto que mostram suas batalhas passadas e tem uma expressão de determinação inabalável.'"),
+        CardViewModel(title: "Lendários dragões", description: "Artes Visuais", image: "Card6", content: "Dragões são criaturas que fascinam a imaginação humana há séculos. Eles aparecem em lendas de várias culturas ao redor do mundo, representando poder, sabedoria e mistério. Agora, com a ajuda de IA, é possível recriar essas criaturas lendárias de maneira única e impressionante. Desde as lendas asiáticas, onde os dragões são sábios e benevolentes, até as tradições ocidentais, onde eles são guardiões ferozes de tesouros, dragões sempre tiveram um papel de destaque na fantasia. A IA pode ajudar a desenvolver descrições detalhadas de dragões em qualquer cenário, incluindo seus habitats, temperamentos e habilidades especiais. Imagine criar um dragão para sua história, que não apenas voa e solta fogo, mas tem uma história própria, com motivações complexas e uma presença imponente. As ferramentas de IA permitem que você personalize esses dragões, adicionando características exclusivas, como escamas de cores específicas, poderes elementais e até mesmo personalidades únicas. -> Prompt: 'Descreva um dragão lendário que vive nas profundezas de uma montanha antiga. Suas escamas são negras como a noite, e seus olhos brilham em um tom de vermelho incandescente. Ele é conhecido por proteger um tesouro ancestral, mas poucos se atrevem a enfrentá-lo por causa de sua inteligência e força sobrenatural.")
+    ]
+
+    let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                HStack {
+                    Image(systemName: "brain.head.profile")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.blue)
+                    
+                    TextField("Pesquisar...", text: .constant(""))
+                        .padding(10)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                        .overlay(
+                            HStack {
+                                Spacer()
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.blue)
+                                        .frame(width: 40, height: 40)
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.trailing, 1)
+                            }
+                        )
+                        .frame(width: 140)
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: ProfileView(), isActive: $showProfile) {
+                                            Button("Entrar / Cadastrar") {
+                                                showProfile = true
+                                            }
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                        .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                }
+            }
+                .padding(.vertical, 10)
+                .padding(.horizontal)
+                .background(Color(hex: 0x009FFF))
+                .padding(.bottom, 10)
+
+                HStack {
+                    Text("Guias Rápidos")
+                        .font(.title2)
+                        .bold()
+                        .foregroundColor(Color(hex: 0x009FFF))
+                        .padding(.leading)
+
+                    Spacer()
+
+                    Button(action: {
+                        showCategoryOptions.toggle()
+                    }) {
+                        Text("Filtros")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color(hex: 0x00D8C6))
+                            .cornerRadius(10)
+                            .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                    }
+                    .padding(.trailing)
+                }
+                .padding(.top, 10)
+
+                if showCategoryOptions {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(categories, id: \.self) { category in
+                                Button(action: {
+                                    selectedCategory = category
+                                    filteredItems = items.filter { $0.description == category }
+                                    showCategoryOptions = false
+                                }) {
+                                    Text(category)
+                                        .font(.subheadline)
+                                        .padding(10)
+                                        .background(Color(hex: 0x00D8C6))
+                                        .foregroundColor(.white)
+                                        .cornerRadius(10)
+                                        .shadow(color: .gray.opacity(0.5), radius: 4, x: 0, y: 4)
+                                        .fontWeight(.bold)
+                                }
+                                .padding(.horizontal, 5)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 20) {
+                        ForEach(filteredItems.isEmpty ? items : filteredItems) { card in
+                            CardView(card: card)
+                                .onTapGesture {
+                                    selectedCard = card
+                                    showModal = true
+                                }
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                }
+                .background(Color(.systemGray6))
+                .navigationTitle("")
+                .navigationBarHidden(true)
+            }
+            .background(Color(.white))
+            .sheet(isPresented: $showModal) {
+                if let selectedCard = selectedCard {
+                    CardDetailView(card: selectedCard)
+                }
+            }
+        }
+        .onAppear {
+            filteredItems = items
+        }
+    }
+}
+
+struct CardView: View {
+    let card: CardViewModel
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Image(card.image)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 150)
+                .clipped()
+                .cornerRadius(10, corners: [.topLeft, .topRight])
+
+            VStack {
+                Text(card.title)
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.black)
+
+                Text(card.description)
+                    .font(.footnote)
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
+
+                Spacer()
+
+                Button(action: {}) {
+                    Text("Acessar")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                .padding(.top, 5)
+            }
+            .padding(10)
+            .background(Color(hex: 0xA7D6F1))
+            .cornerRadius(10, corners: [.bottomLeft, .bottomRight])
+        }
+        .frame(width: 160, height: 250)
+        .background(Color(hex: 0x009FFF))
+        .cornerRadius(15)
+        .shadow(radius: 5)
+    }
+}
+
+struct CardDetailView: View {
+    let card: CardViewModel
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                Image(card.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 200)
+                    .cornerRadius(10)
+
+                Text(card.title)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .padding()
+
+                Text(card.content)
+                    .font(.body)
+                    .padding(.horizontal)
+                    .foregroundColor(.white)
+                    .background(Color.gray)
+                    .cornerRadius(10)
+
+                Button(action: {
+                }) {
+                    Text("Copiar Prompt")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+
+                Button(action: {
+                }) {
+                    Text("Favoritar")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(10)
+                        .background(Color.yellow)
+                        .cornerRadius(10)
+                    Image(systemName: "star.fill")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.yellow)
+                }
+                .padding()
+            }
+            .padding()
+            .background(Color.gray)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+        }
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+extension Color {
+    init(hex: Int) {
+        self.init(
+            red: Double((hex >> 16) & 0xFF) / 255,
+            green: Double((hex >> 8) & 0xFF) / 255,
+            blue: Double(hex & 0xFF) / 255,
+            opacity: 1
+        )
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
