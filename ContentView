@@ -210,78 +210,78 @@ struct CardDetailView: View {
     let card: CardViewModel
 
     var body: some View {
-            VStack(spacing: 20) {
-                Spacer()
-                Image(card.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .cornerRadius(10)
+           VStack(spacing: 20) {
+               Spacer()
+               Image(card.image)
+                   .resizable()
+                   .scaledToFit()
+                   .frame(height: 200)
+                   .cornerRadius(10)
 
-                Text(card.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding()
+               Text(card.title)
+                   .font(.largeTitle)
+                   .fontWeight(.bold)
+                   .padding()
 
-                ScrollView {
-                    Text(card.content)
-                        .font(.body)
-                        .padding(.horizontal)
-                        .foregroundColor(.white)
-                        .background(Color.gray)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 20)
-                }
-                
-                Spacer()
+               ScrollView {
+                   Text(card.content)
+                       .font(.body)
+                       .padding(.horizontal)
+                       .foregroundColor(.white)
+                       .background(Color.gray)
+                       .cornerRadius(10)
+                       .padding(.horizontal, 20)
+               }
+               
+               Spacer()
 
-                Button(action: {
-                }) {
-                    Text("Copiar Prompt")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity)
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
-                }
-                .padding(.horizontal, 10)
-                .padding(.bottom, -5)
+               Button(action: {
+               }) {
+                   Text("Copiar Prompt")
+                       .fontWeight(.bold)
+                       .foregroundColor(.white)
+                       .padding(.vertical, 10)
+                       .frame(maxWidth: .infinity)
+                       .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+               }
+               .padding(.horizontal, 10)
+               .padding(.bottom, -5)
 
-                HStack(spacing: 10) {
-                    Button(action: {
-                    }) {
-                        Text("Ver comentários")
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
+               HStack(spacing: 10) {
+                   Button(action: {
+                   }) {
+                       Text("Ver comentários")
+                           .fontWeight(.bold)
+                           .foregroundColor(.white)
+                           .padding()
+                           .frame(maxWidth: .infinity)
+                           .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                           .fixedSize(horizontal: false, vertical: true)
+                   }
 
-                    Button(action: {
-                    }) {
-                        HStack {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                            Text("Favoritar")
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
-                    }
-                }
-                .padding(.horizontal, 10)
-            }
-            .padding()
-            .background(Color.gray)
-            .cornerRadius(10)
-            .shadow(radius: 5)
-        }
-    }
+                   Button(action: {
+                   }) {
+                       HStack {
+                           Image(systemName: "star.fill")
+                               .foregroundColor(.yellow)
+                           Text("Favoritar")
+                               .fontWeight(.bold)
+                               .foregroundColor(.white)
+                               .fixedSize(horizontal: false, vertical: true)
+                       }
+                       .padding()
+                       .frame(maxWidth: .infinity)
+                       .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                   }
+               }
+               .padding(.horizontal, 10)
+           }
+           .padding()
+           .background(Color.gray)
+           .cornerRadius(10)
+           .shadow(radius: 5)
+       }
+   }
 
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
