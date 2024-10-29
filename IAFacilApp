@@ -1,0 +1,11 @@
+
+import Foundation
+
+struct CardViewModel: Identifiable {
+    let id = UUID()
+    let title: String
+    let description: String
+    let image: String
+    let content: String
+}
+
