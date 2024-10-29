@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var filteredItems: [CardViewModel] = []
     @State private var selectedCategory: String? = nil
     @State private var showCategoryOptions = false
-
+	
     let categories = ["Artes Visuais", "Criação de conteúdo", "Design Gráfico", "Educação", "Fotografia", "Games e Animações", "Receitas e Culinária", "Saúde e Bem-estar", "Storytelling"]
 
     let items = [
@@ -210,8 +210,8 @@ struct CardDetailView: View {
     let card: CardViewModel
 
     var body: some View {
-        ScrollView {
             VStack(spacing: 20) {
+                Spacer()
                 Image(card.image)
                     .resizable()
                     .scaledToFit()
@@ -223,39 +223,58 @@ struct CardDetailView: View {
                     .fontWeight(.bold)
                     .padding()
 
-                Text(card.content)
-                    .font(.body)
-                    .padding(.horizontal)
-                    .foregroundColor(.white)
-                    .background(Color.gray)
-                    .cornerRadius(10)
+                ScrollView {
+                    Text(card.content)
+                        .font(.body)
+                        .padding(.horizontal)
+                        .foregroundColor(.white)
+                        .background(Color.gray)
+                        .cornerRadius(10)
+                        .padding(.horizontal, 20)
+                }
+                
+                Spacer()
 
                 Button(action: {
                 }) {
                     Text("Copiar Prompt")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                        .padding(.vertical, 10)
                         .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
                 }
+                .padding(.horizontal, 10)
+                .padding(.bottom, -5)
 
-                Button(action: {
-                }) {
-                    Text("Favoritar")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                HStack(spacing: 10) {
+                    Button(action: {
+                    }) {
+                        Text("Ver comentários")
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    Button(action: {
+                    }) {
+                        HStack {
+                            Image(systemName: "star.fill")
+                                .foregroundColor(.yellow)
+                            Text("Favoritar")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding()
                         .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(Color.yellow)
-                        .cornerRadius(10)
-                    Image(systemName: "star.fill")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.yellow)
+                        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+                    }
                 }
-                .padding()
+                .padding(.horizontal, 10)
             }
             .padding()
             .background(Color.gray)
@@ -263,7 +282,6 @@ struct CardDetailView: View {
             .shadow(radius: 5)
         }
     }
-}
 
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
