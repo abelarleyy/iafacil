@@ -6,7 +6,7 @@ struct ProfileView: View {
             Color(hex: 0xA7D6F1)
                 .edgesIgnoringSafeArea(.all)
                 .cornerRadius(80)
-                .padding(.top, -120)
+                .padding(.top, -250)
             
             VStack(spacing: 4) {
                 VStack(spacing: 4) {
@@ -25,7 +25,7 @@ struct ProfileView: View {
                         .foregroundColor(.gray)
                         .padding(.bottom, 5)
                 }
-                .padding(.top, 20)
+                .padding(.top, -120)
                 Spacer().frame(height: 5)
                 
                 VStack(spacing: 0) {
@@ -60,8 +60,6 @@ struct ProfileView: View {
                                 .edgesIgnoringSafeArea(.bottom)
                             }
                         }
-                        .navigationTitle("Perfil")
-                        .navigationBarTitleDisplayMode(.inline)
                     }
     
     private func profileItem(icon: String, text: String) -> some View {
