@@ -85,7 +85,7 @@
                         
                         Spacer()
                         
-                        NavigationLink(destination: ProfileView(), isActive: $showProfile) {
+                        NavigationLink(destination: loginTela(), isActive: $showProfile) {
                             Image(systemName: "person.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
