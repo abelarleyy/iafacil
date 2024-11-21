@@ -1,118 +1,136 @@
 import SwiftUI
 
-struct ContentView: View {
+struct CadastroTela: View {
     @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var repeatPassword: String = ""
-    @State private var birthDate: Date = Date()
-    @State private var showDatePicker: Bool = false
+    @State private var senha: String = ""
+    @State private var repetirSenha: String = ""
+    @State private var dataNascimento: String = ""
+    @State private var showProfile = false
+
+    @Environment(\.presentationMode) var presentationMode // Para voltar
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                // Top Navigation with "Voltar" Button
+        NavigationView {
+            VStack(spacing: 20) {
+                // Botão Voltar
                 HStack {
                     Button(action: {
-                        // Ação do botão "Voltar"
+                        presentationMode.wrappedValue.dismiss() // Volta para a tela anterior
                     }) {
                         Text("Voltar")
                             .foregroundColor(.blue)
                             .padding()
+                            .frame(width: 80, height: 40)
+                            .background(Color(UIColor.systemGray6))
+                            .cornerRadius(10)
                     }
-                    Spacer() // Para empurrar o conteúdo para a esquerda
+                    Spacer()
                 }
-                .padding(.leading)
+                .padding(.horizontal)
+                .padding(.top, 10)
 
-                // Logo Placeholder
-                Circle()
-                    .stroke(Color.blue, lineWidth: 2)
-                    .frame(width: 80, height: 80)
-                    .padding(.top, 20)
+                // Cabeçalho
+                VStack(spacing: 10) {
+                    Image(systemName: "brain.head.profile")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(.white)
+                    
+                    Text("IA Fácil")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 20)
 
-                Text("IA Fácil")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-
-                Spacer().frame(height: 30)
-                
-                // Aqui é a parte de baixo com os campos
-                VStack(spacing: 20) {
+                // Campos de texto
+                VStack(spacing: 15) {
                     TextField("usuario@email.com", text: $email)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 50) // Altura
-                        .padding(.horizontal, 50) // Largura
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
 
-                    SecureField("Senha", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 50) // Altura
-                        .padding(.horizontal, 50) // Largura
+                    SecureField("senha", text: $senha)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
 
-                    SecureField("Repita a Senha", text: $repeatPassword)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 50) // Altura
-                        .padding(.horizontal, 50) // Largura
+                    SecureField("repita a senha", text: $repetirSenha)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
 
-                    Button(action: {
-                        withAnimation {
-                            showDatePicker.toggle()
-                        }
-                    }) {
-                        Text("Data de Nascimento")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(10)
-                    }
-                    .padding(.horizontal, 50)
-
-                    if showDatePicker {
-                        DatePicker("Data de Nascimento", selection: $birthDate, displayedComponents: .date)
-                            .datePickerStyle(GraphicalDatePickerStyle())
-                            .padding(.horizontal, 50)
-                            .transition(.slide)
-                    }
-
-                    Button(action: {
-                        // Ação ao clicar no botão Cadastrar
-                    }) {
-                        Text("Cadastrar")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(red: 63/255, green: 193/255, blue: 201/255))
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .shadow(color: .gray, radius: 5, x: 0, y: 5) // Sombra
-                    }
-                    .padding(.horizontal, 50)
-
-                    Text("OU")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding(.vertical)
-
-                    // Placeholder for social icons
-                    HStack(spacing: 15) {
-                        ForEach(0..<4) { _ in
-                            Circle()
-                                .fill(Color.gray)
-                                .frame(width: 50, height: 50)
-                        }
-                    }
-                    .padding(.top)
-
-                    Text("Contate o suporte | IA FACIL©todos os direito reservados")
-                        .font(.footnote)
-                        .foregroundColor(.white)
-                        .padding(.bottom, 20) // Adicionei espaçamento inferior
+                    TextField("xx/xx/xxxx - Data de nascimento", text: $dataNascimento)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .background(Color.blue.ignoresSafeArea())
+                .padding(.horizontal, 40)
+
+                // Botão de cadastro
+                NavigationLink(destination: ProfileView(), isActive: $showProfile) {
+                    Button(action: {
+                        showProfile = true;
+                    }){
+                        Text("Cadastrar")
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(red: 63/255, green: 193/255, blue: 201/255))
+                            .cornerRadius(10)
+                    }
+                }
+                .padding(.horizontal, 40)
+                .padding(.top, 20)
+
+                // Separador "OU"
+                Text("OU")
+                    .foregroundColor(.white)
+                    .padding(.top, 10)
+
+                // Ícones
+                HStack(spacing: 20) {
+                    Image(systemName: "bird.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.white)
+
+                    Image(systemName: "person.2.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.white)
+
+                    Image(systemName: "globe")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.white)
+
+                    Image(systemName: "message.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 10)
+
+                Spacer()
+
+                // Rodapé
+                Text("Contate o suporte | IA Fácil©Todos os direitos reservados")
+                    .font(.footnote)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 20)
             }
+            .background(Color.blue.ignoresSafeArea())
+            .navigationBarTitle("") // Remove o título automático da barra
+            .navigationBarHidden(true) // Esconde completamente a barra de navegação
         }
+        .navigationViewStyle(StackNavigationViewStyle()) // Força o estilo da navegação
     }
 }
 
-#Preview {
-    ContentView()
+struct CadastroTela_Previews: PreviewProvider {
+    static var previews: some View {
+        CadastroTela()
+    }
 }
